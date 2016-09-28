@@ -25,14 +25,14 @@ if(isset($_POST["loginEmail"]) && isset($_POST['loginPassword']) && !empty($_POS
 
 if (isset($_POST['loginEmail'])){
     if (empty($_POST['loginEmail'])){
-        $loginEmailError = "See väli on kohustuslik!";
+        $loginEmailError = "E-mail on kohustuslik!";
     }
 }
 
 
 if (isset($_POST['loginPassword'])){
     if (empty($_POST['loginPassword'])){
-        $loginPasswordError = "See väli on kohustuslik!";
+        $loginPasswordError = "Parool on kohustuslik!";
     }
 }
 
@@ -43,11 +43,7 @@ if (isset($_POST['loginPassword'])){
 
 <html>
 <style>
-    * {font-family: "Calibri Light"; vertical-align:top; font-size:14px;margin:auto}
-    h1 {font-size: 30px; font-weight: bolder}
-    .redtext {color:#f00b0b; font-weight: bolder}
-    .table1  {border-collapse:collapse;border-spacing:0;}
-    .table1 td{padding:5px;border-style:none;overflow:hidden;word-break:normal}
+    @import "styles.css";
 </style>
 
 <head>
@@ -60,42 +56,38 @@ if (isset($_POST['loginPassword'])){
 
 <form method ="post">
 
-    <table class="table1" style="border-style: solid">
+    <table class="table1">
         <tr>
-            <td style="text-align:center"><h1>Logi sisse</h1></td>
-        </tr>
-        <tr>
-            <td style="text-align:center"><a href="register.php">Pole kasutajat? Suuna registreerimise lehele...</a></td>
+            <td><h1>Logi sisse</h1></td>
         </tr>
         <tr>
             <td>
-            <table class="table1">
+            <table class="table2">
                 <tr>
                     <td>E-post:<span class = 'redtext'>*</span></td>
-                    <td><input name = "loginEmail" type ="email" placeholder = "E-post"></td>
-                    <td></td>
+                    <td colspan="2"  style="text-align:left"><input name = "loginEmail" type ="email" placeholder = "E-post"></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td class="redtext"><?=$loginEmailError;?></td>
-                    <td></td>
+                    <td colspan="3"><p class = "redtext"><?=$loginEmailError;?></p></td>
                 </tr>
                 <tr>
                     <td>Parool:<span class = 'redtext'>*</span></td>
-                    <td><input name = "loginPassword" type ="password" placeholder = "Parool"></td>
-                    <td></td>
+                    <td colspan="2"style="text-align:left"><input name = "loginPassword" type ="password" placeholder = "Parool"></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td class="redtext"><?=$loginPasswordError;?></td>
-                    <td></td>
+                    <td colspan="3"><p class = "redtext"><?=$loginPasswordError;?></p></td>
                 </tr>
                 <tr>
-                    <td><input type ="submit" value = "Submit"></td>
-                    <td><p class = "redtext"><?=$loginNotice;?></p></td>
-                    <td></td>
+                    <td colspan="3" ><input type ="submit" value = "Logi sisse"></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><p class = "redtext"><?=$loginNotice;?></p></td>
+                </tr>
             </table>
             </td>
+        </tr>
+        <tr>
+            <td><a href="register.php">Pole kasutajat?..</a></td>
         </tr>
     </table>
 

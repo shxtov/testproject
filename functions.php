@@ -40,7 +40,7 @@ function signup ($email, $password, $bday, $gender, $carpref){
         $signupNotice ="Registreerimine õnnestus! Suunan...";
         header('Refresh: 3;login.php');
     }else{
-        $signupNotice ="Registreerimine ebaõnnestus! Võtke ühendust administraatoriga!";
+        $signupNotice ="Registreerimine ebaõnnestus!";
     }
     return $signupNotice;
 }
@@ -75,7 +75,7 @@ function login ($email, $password){
 
     }else{
         //ei olnud
-        $loginNotice ="E-mailiga ".$email." kasutajat pole!";
+        $loginNotice ="Sellist kasutajat ei eksisteeri!";
     }
     return $loginNotice;
 }

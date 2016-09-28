@@ -1,0 +1,9 @@
+* {font-family: "Calibri Light"; vertical-align:top; font-size:14px;margin:auto; padding:auto;}
+h1 {font-size: 30px; font-weight: bolder}
+.redtext {color:#f00b0b; font-weight: bolder}
+.table1  {width:250px;border-collapse:collapse;border-spacing:0;border-style: solid; border-color: #a8a8a8; box-shadow: 0 0 250px #dadada;}
+.table2  {width:250px;border-collapse:collapse;border-spacing:0;}
+.table1 td{padding:5px;border-style:none;overflow:hidden;word-break:normal;text-align:center}
+a:link {color: #a8a8a8;}
+a:visited {color: #a8a8a8;}
+a:hover {color: #7cb2ed;}

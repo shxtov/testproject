@@ -36,7 +36,7 @@ if (isset ($_POST ["signupEmail"])){
     if (empty ($_POST ["signupEmail"])){
 
         //oli email, kuigi see oli tühi
-        $signupEmailError = "See väli on kohustuslik!";
+        $signupEmailError = "E-mail on kohustuslik!";
 
     } else {
 
@@ -47,28 +47,12 @@ if (isset ($_POST ["signupEmail"])){
 
 }
 
-
 if (isset ($_POST ["signupBday"])){
 
     if (empty ($_POST ["signupBday"])){
 
         // if bday wasnt set
-        $signupBdayError = "See väli on kohustuslik!";
-
-    }else{
-        $signupBday = $_POST["signupBday"];
-    }
-
-}
-
-
-
-if (isset ($_POST ["signupBday"])){
-
-    if (empty ($_POST ["signupBday"])){
-
-        // if bday wasnt set
-        $signupBdayError = "See väli on kohustuslik!";
+        $signupBdayError = "Sünnipäev on kohustuslik!";
 
     }else{
         $signupBday = $_POST["signupBday"];
@@ -83,14 +67,14 @@ if (isset ($_POST ["signupPassword"])){
     if (empty ($_POST ["signupPassword"])){
 
         //oli password, kuigi see oli tühi
-        $signupPasswordError = "See väli on kohustuslik!";
+        $signupPasswordError = "Parool on kohustuslik!";
 
     }else{
         // tean et oli parool ja see ei olnud tühi
         // vähemalt 8 sümbolit
 
         if (strlen($_POST["signupPassword"])< 8){
-            $signupPasswordError = "Parool peab olema vähemalt	8 tähemärki pikk!";
+            $signupPasswordError = "Parool peab olema >8 tähemärki!";
         }
 
 
@@ -141,12 +125,7 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
 
 <html>
 <style>
-    * {font-family: "Calibri Light"; vertical-align:top; font-size:14px;margin:auto; padding:auto;}
-    h1 {font-size: 30px; font-weight: bolder}
-    .redtext {color:#f00b0b; font-weight: bolder}
-    .table1  {border-collapse:collapse;border-spacing:0}
-    .table1 td{padding:5px;border-style:none;overflow:hidden;word-break:normal}
-
+    @import "styles.css";
 </style>
 
 <head>
@@ -161,49 +140,37 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
 <form method ="post">
 
 
-    <table class="table1" style="border-style: solid">
-        <tr>
-            <td style="text-align:center"><h1>Registreeri</h1></td>
-        </tr>
-        <tr>
-            <td style="text-align:center"><a href="login.php">Kasutaja olemas? Suuna sisselogimise lehele...</a></td>
-        </tr>
-        <tr>
-            <td>
     <table class="table1">
         <tr>
-            <td>E-post:<span class = 'redtext'>*</span></td>
-            <td><input name = "signupEmail" type ="email" value = "<?=$signupEmail;?>" placeholder = "E-post"></td>
-            <td></td>
+            <td><h1>Registreeri</h1></td>
         </tr>
         <tr>
-            <td></td>
-            <td class="redtext"><?=$signupEmailError;?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Parool:<span class = 'redtext'>*</span></td>
-            <td><input name = "signupPassword" type ="password" placeholder = "Parool"></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="redtext"><?=$signupPasswordError;?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Sünnipäev:<span class = 'redtext'>*</span></td>
-            <td><input  name="signupBday" type ="date" min="1900-01-01" max = "<?=date('Y-m-d'); ?>" value = "<?=$signupBday;?>"></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="redtext"><?=$signupBdayError;?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Sugu:<span class = 'redtext'>*</span></td>
             <td>
+    <table class="table2">
+        <tr>
+            <td style="width: 70px">E-post:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left"><input name = "signupEmail" type ="email" value = "<?=$signupEmail;?>" placeholder = "E-post"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><p class = "redtext"><?=$signupEmailError;?></p></td>
+        </tr>
+        <tr>
+            <td style="width: 70px">Parool:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left"><input name = "signupPassword" type ="password" placeholder = "Parool"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><p class = "redtext"><?=$signupPasswordError;?></p></td>
+        </tr>
+        <tr>
+            <td style="width: 70px">Sünnipäev:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left"><input name="signupBday" type ="date" min="1900-01-01" max = "<?=date('Y-m-d'); ?>" placeholder="YYYY-MM-DD"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><p class = "redtext"><?=$signupBdayError;?></p></td>
+        </tr>
+        <tr>
+            <td style="width: 70px">Sugu:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left">
                 <?php if($signupGender == "male") { ?>
                     <label><input type="radio" name="signupGender" value="male" checked> Mees</label><br>
                 <?php } else { ?>
@@ -221,16 +188,11 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
                 <?php } else {?>
                     <label><input type="radio" name="signupGender" value="unspecified"> Ei soovi avaldada</label><br>
                 <?php } ?>
-            <td class="table1-errortext"></td>
+
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Autohuvid:<span class = 'redtext'>*</span></td>
-            <td>
+            <td style="width: 70px">Autohuvid:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left; height:40px">
                 <input type="hidden" name="signupCarPref_items[]"  value="">
 
                 <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("eucars", $_POST['signupCarPref_items'])){?>
@@ -262,20 +224,22 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
                     <?php } else { ?>
                         <label><input type="checkbox" name="signupCarPref_items[]" value="korcars">  Korea autod</label><br>
                     <?php } ?>
-            <td</td>
         </tr>
         <tr>
-            <td></td>
-            <td class="redtext"><?=$signupCarPrefError;?></td>
-            <td></td>
+            <td colspan="3"><p class = "redtext"><?=$signupCarPrefError;?></p></td>
         </tr>
         <tr>
-            <td><input type ="submit" value = "Submit"></td>
-            <td><p class = "redtext"><?=$signupNotice;?></p></td>
-            <td></td>
+            <td colspan="3" ><input type ="submit" value = "Registreeri"></td>
+        </tr>
+        <tr>
+            <td colspan="3"><p class = "redtext"><?=$signupNotice;?></p></td>
         </tr>
     </table>
         </td>
+        </tr>
+        <tr>
+            <td><a href="login.php">Kasutaja olemas?..</a></td>
+        </tr>
         </table>
 </form>
 
