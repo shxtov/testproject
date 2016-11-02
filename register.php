@@ -7,7 +7,6 @@
 
 
 //võtab ja kopeerib faili sisu
-require ("../../config.php");
 require ("functions.php");
 
 
@@ -30,13 +29,15 @@ $signupNotice = "";
 
 
 
+
+
 // kas epost oli olemas
 if (isset ($_POST ["signupEmail"])){
 
     if (empty ($_POST ["signupEmail"])){
 
         //oli email, kuigi see oli tühi
-        $signupEmailError = "E-mail on kohustuslik!";
+        $signupEmailError = "Please enter your e-mail!";
 
     } else {
 
@@ -52,7 +53,7 @@ if (isset ($_POST ["signupBday"])){
     if (empty ($_POST ["signupBday"])){
 
         // if bday wasnt set
-        $signupBdayError = "Sünnipäev on kohustuslik!";
+        $signupBdayError = "Please enter your birthday!";
 
     }else{
         $signupBday = $_POST["signupBday"];
@@ -67,14 +68,14 @@ if (isset ($_POST ["signupPassword"])){
     if (empty ($_POST ["signupPassword"])){
 
         //oli password, kuigi see oli tühi
-        $signupPasswordError = "Parool on kohustuslik!";
+        $signupPasswordError = "Please enter a password!";
 
     }else{
         // tean et oli parool ja see ei olnud tühi
         // vähemalt 8 sümbolit
 
         if (strlen($_POST["signupPassword"])< 8){
-            $signupPasswordError = "Parool peab olema >8 tähemärki!";
+            $signupPasswordError = "Password must be >8 symbols!";
         }
 
 
@@ -94,7 +95,7 @@ if (isset($_POST['signupCarPref_items'])){
         !in_array("japcars",$_POST['signupCarPref_items']) &&
         !in_array("ruscars",$_POST['signupCarPref_items']) &&
         !in_array("korcars",$_POST['signupCarPref_items'])){
-        $signupCarPrefError = 'Vali vähemalt üks valik!';
+        $signupCarPrefError = 'Please choose atleast one!';
     } else {
         $signupCarPref_items = $_POST["signupCarPref_items"];
     }
@@ -115,7 +116,7 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
     $password = hash("sha512", $_POST["signupPassword"]);
 
 
-    $signupNotice = signup($signupEmail, $password, $signupBday, $signupGender, $signupCarPref_todatabase);
+    $signupNotice = $Users->signup($Helper->cleanInput($signupEmail), $Helper->cleanInput($password), $signupBday, $signupGender, $signupCarPref_todatabase);
 }
 
 
@@ -129,12 +130,12 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
 </style>
 
 <head>
-    <title>Registreerimise lehekülg</title>
+    <title>Create an account</title>
 </head>
 
 <body>
 
-
+    
 
 
 <form method ="post">
@@ -142,103 +143,103 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
 
     <table class="table1">
         <tr>
-            <td><h1>Registreeri</h1></td>
+            <td style="text-align:center"><h1>Create an account:</h1></td>
         </tr>
         <tr>
             <td>
     <table class="table2">
         <tr>
-            <td style="width: 70px">E-post:<span class = 'redtext'>*</span></td>
-            <td colspan="2" style="text-align:left"><input name = "signupEmail" type ="email" value = "<?=$signupEmail;?>" placeholder = "E-post"></td>
+            <td style="width: 70px">E-mail:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left"><input name = "signupEmail" type ="email" value = "<?=$signupEmail;?>"></td>
         </tr>
         <tr>
-            <td colspan="3"><p class = "redtext"><?=$signupEmailError;?></p></td>
+            <td colspan="3"style="text-align:center"><p class = "redtext"><?=$signupEmailError;?></p></td>
         </tr>
         <tr>
-            <td style="width: 70px">Parool:<span class = 'redtext'>*</span></td>
-            <td colspan="2" style="text-align:left"><input name = "signupPassword" type ="password" placeholder = "Parool"></td>
+            <td style="width: 70px">Password:<span class = 'redtext'>*</span></td>
+            <td colspan="2" style="text-align:left"><input name = "signupPassword" type ="password"></td>
         </tr>
         <tr>
-            <td colspan="3"><p class = "redtext"><?=$signupPasswordError;?></p></td>
+            <td colspan="3"style="text-align:center"><p class = "redtext"><?=$signupPasswordError;?></p></td>
         </tr>
         <tr>
-            <td style="width: 70px">Sünnipäev:<span class = 'redtext'>*</span></td>
+            <td style="width: 70px">Birthday:<span class = 'redtext'>*</span></td>
             <td colspan="2" style="text-align:left"><input name="signupBday" type ="date" min="1900-01-01" max = "<?=date('Y-m-d'); ?>" placeholder="YYYY-MM-DD"></td>
         </tr>
         <tr>
-            <td colspan="3"><p class = "redtext"><?=$signupBdayError;?></p></td>
+            <td colspan="3"style="text-align:center"><p class = "redtext"><?=$signupBdayError;?></p></td>
         </tr>
         <tr>
-            <td style="width: 70px">Sugu:<span class = 'redtext'>*</span></td>
+            <td style="width: 70px">Gender:<span class = 'redtext'>*</span></td>
             <td colspan="2" style="text-align:left">
                 <?php if($signupGender == "male") { ?>
-                    <label><input type="radio" name="signupGender" value="male" checked> Mees</label><br>
+                    <label><input type="radio" name="signupGender" value="male" checked> Male</label><br>
                 <?php } else { ?>
-                    <label><input type="radio" name="signupGender" value="male"> Mees</label><br>
+                    <label><input type="radio" name="signupGender" value="male"> Male</label><br>
                 <?php } ?>
 
                 <?php if($signupGender ==  "female") { ?>
-                    <label><input type="radio" name="signupGender" value="female" checked> Naine</label><br>
+                    <label><input type="radio" name="signupGender" value="female" checked> Female</label><br>
                 <?php } else { ?>
-                    <label><input type="radio" name="signupGender" value="female"> Naine</label><br>
+                    <label><input type="radio" name="signupGender" value="female"> Female</label><br>
                 <?php } ?>
 
                 <?php if($signupGender ==  "unspecified") { ?>
-                    <label><input type="radio" name="signupGender" value="unspecified" checked> Ei soovi avaldada</label><br>
+                    <label><input type="radio" name="signupGender" value="unspecified" checked> Doesn't matter...</label><br>
                 <?php } else {?>
-                    <label><input type="radio" name="signupGender" value="unspecified"> Ei soovi avaldada</label><br>
+                    <label><input type="radio" name="signupGender" value="unspecified"> Doesn't matter...</label><br>
                 <?php } ?>
 
         </tr>
         <tr>
-            <td style="width: 70px">Autohuvid:<span class = 'redtext'>*</span></td>
+            <td style="width: 70px">Preferences:<span class = 'redtext'>*</span></td>
             <td colspan="2" style="text-align:left; height:40px">
                 <input type="hidden" name="signupCarPref_items[]"  value="">
 
                 <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("eucars", $_POST['signupCarPref_items'])){?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="eucars" checked> Euroopa autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="eucars" checked> European cars</label><br>
                 <?php } else { ?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="eucars"> Euroopa autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="eucars"> European cars</label><br>
                 <?php } ?>
 
                 <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("uscars", $_POST['signupCarPref_items'])){?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="uscars" checked> Ameerika autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="uscars" checked> USA cars</label><br>
                 <?php } else { ?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="uscars"> Ameerika autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="uscars"> USA cars</label><br>
                 <?php } ?>
 
                 <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("japcars", $_POST['signupCarPref_items'])){?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="japcars" checked>Jaapani autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="japcars" checked>Japanese cars</label><br>
                 <?php } else { ?>
-                    <label><input type="checkbox" name="signupCarPref_items[]" value="japcars"> Jaapani autod</label><br>
+                    <label><input type="checkbox" name="signupCarPref_items[]" value="japcars"> Japanese cars</label><br>
                 <?php } ?>
 
                 <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("ruscars", $_POST['signupCarPref_items'])){?>
-                <label><input type="checkbox" name="signupCarPref_items[]" value="ruscars" checked> Vene autod</label><brc>
+                <label><input type="checkbox" name="signupCarPref_items[]" value="ruscars" checked> Russian cars</label><br>
                     <?php } else { ?>
-                        <label><input type="checkbox" name="signupCarPref_items[]" value="ruscars"> Vene autod</label><br>
+                        <label><input type="checkbox" name="signupCarPref_items[]" value="ruscars"> Russian cars</label><br>
                     <?php } ?>
 
                     <?php if(isset($_POST['signupCarPref_items']) && is_array($_POST['signupCarPref_items'])&& in_array("korcars", $_POST['signupCarPref_items'])){?>
-                        <label><input type="checkbox" name="signupCarPref_items[]" value="korcars" checked> Korea autod</label><br>
+                        <label><input type="checkbox" name="signupCarPref_items[]" value="korcars" checked> Korean cars</label><br>
                     <?php } else { ?>
-                        <label><input type="checkbox" name="signupCarPref_items[]" value="korcars">  Korea autod</label><br>
+                        <label><input type="checkbox" name="signupCarPref_items[]" value="korcars">  Korean cars</label><br>
                     <?php } ?>
         </tr>
         <tr>
-            <td colspan="3"><p class = "redtext"><?=$signupCarPrefError;?></p></td>
+            <td colspan="3"style="text-align:center"><p class = "redtext"><?=$signupCarPrefError;?></p></td>
         </tr>
         <tr>
-            <td colspan="3" ><input type ="submit" value = "Registreeri"></td>
+            <td colspan="3" style="text-align:center" ><input type ="submit" value = "Submit"></td>
         </tr>
         <tr>
-            <td colspan="3"><p class = "redtext"><?=$signupNotice;?></p></td>
+            <td colspan="3" style="text-align:center"><p class = "redtext"><?=$signupNotice;?></p></td>
         </tr>
     </table>
         </td>
         </tr>
         <tr>
-            <td><a href="login.php">Kasutaja olemas?..</a></td>
+            <td style="text-align:center"><a href="login.php">Already have an account?..</a></td>
         </tr>
         </table>
 </form>

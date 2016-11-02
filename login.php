@@ -5,13 +5,14 @@
 // hiljem administraator pakub täpsemat aega kliendile ja, kui kõik soovib, määrab töökoda ja meistrit.
 // lisada võib ka  näiteks kliendikaarte/boonuspunkte, võimalust vaadata statistikat jne.
 
+
+$loginEmail = "";
 $loginEmailError ="";
 $loginPasswordError='';
 $loginNotice = "";
 
 
 //võtab ja kopeerib faili sisu
-require ("../../config.php");
 require ("functions.php");
 
 if (isset ($_SESSION["userId"])){
@@ -20,19 +21,25 @@ if (isset ($_SESSION["userId"])){
 
 
 if(isset($_POST["loginEmail"]) && isset($_POST['loginPassword']) && !empty($_POST["loginEmail"]) && !empty($_POST['loginPassword'])){
-    $loginNotice = login($_POST["loginEmail"], $_POST['loginPassword']);
+    $loginNotice = $Users->login($Helper->cleanInput($_POST["loginEmail"]), $Helper->cleanInput($_POST['loginPassword']));
 }
 
-if (isset($_POST['loginEmail'])){
-    if (empty($_POST['loginEmail'])){
-        $loginEmailError = "E-mail on kohustuslik!";
+
+
+if (isset ($_POST ["loginEmail"])){
+
+    if (empty ($_POST ["loginEmail"])){
+        $loginEmailError = "Please enter your e-mail!";
+    } else {
+        $loginEmail = $_POST["loginEmail"];
     }
 }
 
 
+
 if (isset($_POST['loginPassword'])){
     if (empty($_POST['loginPassword'])){
-        $loginPasswordError = "Parool on kohustuslik!";
+        $loginPasswordError = "Please enter your password!";
     }
 }
 
@@ -47,7 +54,7 @@ if (isset($_POST['loginPassword'])){
 </style>
 
 <head>
-    <title>Sisselogimise lehekülg</title>
+    <title>Log in page</title>
 </head>
 
 <body>
@@ -58,36 +65,36 @@ if (isset($_POST['loginPassword'])){
 
     <table class="table1">
         <tr>
-            <td><h1>Logi sisse</h1></td>
+            <td style="text-align:center"><h1>Log in:</h1></td>
         </tr>
         <tr>
             <td>
             <table class="table2">
                 <tr>
-                    <td>E-post:<span class = 'redtext'>*</span></td>
-                    <td colspan="2"  style="text-align:left"><input name = "loginEmail" type ="email" placeholder = "E-post"></td>
+                    <td>E-mail:<span class = 'redtext'>*</span></td>
+                    <td colspan="2"  style="text-align:left"><input name = "loginEmail" type ="email" value="<?=$loginEmail;?>"></td>
                 </tr>
                 <tr>
-                    <td colspan="3"><p class = "redtext"><?=$loginEmailError;?></p></td>
+                    <td colspan="3"  style="text-align:center"><p class = "redtext"><?=$loginEmailError;?></p></td>
                 </tr>
                 <tr>
-                    <td>Parool:<span class = 'redtext'>*</span></td>
-                    <td colspan="2"style="text-align:left"><input name = "loginPassword" type ="password" placeholder = "Parool"></td>
+                    <td>Password:<span class = 'redtext'>*</span></td>
+                    <td colspan="2"style="text-align:left"><input name = "loginPassword" type ="password"></td>
                 </tr>
                 <tr>
-                    <td colspan="3"><p class = "redtext"><?=$loginPasswordError;?></p></td>
+                    <td colspan="3" style="text-align:center"><p class = "redtext"><?=$loginPasswordError;?></p></td>
                 </tr>
                 <tr>
-                    <td colspan="3" ><input type ="submit" value = "Logi sisse"></td>
+                    <td colspan="3" style="text-align:center"><input type ="submit" value = "Submit"></td>
                 </tr>
                 <tr>
-                    <td colspan="3"><p class = "redtext"><?=$loginNotice;?></p></td>
+                    <td colspan="3" style="text-align:center"><p class = "redtext"><?=$loginNotice;?></p></td>
                 </tr>
             </table>
             </td>
         </tr>
         <tr>
-            <td><a href="register.php">Pole kasutajat?..</a></td>
+            <td style="text-align:center"><a href="register.php">Don't have an account?..</a></td>
         </tr>
     </table>
 
